@@ -1,0 +1,71 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Conduxt</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#EBEAE5}body{font-family:'DM Sans',system-ui,sans-serif;color:#202221;-webkit-font-smoothing:antialiased}
+a{color:#202221}a:hover{color:#3D3E3C}button{font:inherit}input::placeholder{color:#A7A6A4}
+@keyframes cxBreathe{0%,100%{transform:scale(.97)}50%{transform:scale(1.03)}}.cx-breathe{animation:cxBreathe 6s ease-in-out infinite}
+@keyframes cxFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.cx-fade{animation:cxFade .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes cxPulse{0%,100%{opacity:1}50%{opacity:.35}}.cx-pulse{animation:cxPulse 1.2s ease-in-out infinite}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="daily/data.js"></script>
+<script src="daily/team-data.js"></script>
+<script src="daily/answers.js"></script>
+</head><body><div id="root"></div>
+<script type="text/babel" src="conduxt-app/atoms.jsx"></script>
+<script type="text/babel" src="daily/aura.jsx"></script>
+<script type="text/babel" src="daily/today.jsx"></script>
+<script type="text/babel" src="daily/charts.jsx"></script>
+<script type="text/babel" src="daily/book.jsx"></script>
+<script type="text/babel" src="daily/home.jsx"></script>
+<script type="text/babel" src="onboard/fit.jsx"></script>
+<script type="text/babel" src="daily/book-open.jsx"></script>
+<script type="text/babel" src="daily/teams.jsx"></script>
+<script type="text/babel" src="daily/team.jsx"></script>
+<script type="text/babel" src="daily/team-book.jsx"></script>
+<script type="text/babel" src="daily/tweaks-panel.jsx"></script>
+<script type="text/babel">
+const KEY = 'conduxt-daily-v1';
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "home": "calm",
+  "teams": "several"
+}/*EDITMODE-END*/;
+function App() {
+  const [tw, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const saved = (()=>{try{return JSON.parse(sessionStorage.getItem(KEY))||{}}catch(e){return {}}})();
+  const landing = localStorage.getItem('conduxt-landing'); if (landing) localStorage.removeItem('conduxt-landing');
+  const firstRun = !landing && !localStorage.getItem('conduxt-visited');
+  const onb = (()=>{try{return JSON.parse(localStorage.getItem('conduxt-onboard-v2'))||{}}catch(e){return {}}})();
+  const [intro, setIntro] = React.useState(firstRun);
+  const [view, setView] = React.useState(firstRun || landing ? 'book' : saved.view || 'today');
+  const [sel, setSel] = React.useState(firstRun || landing ? 'overview' : saved.sel || 'overview');
+  const [ask, setAsk] = React.useState(null);
+  React.useEffect(()=>{ sessionStorage.setItem(KEY, JSON.stringify({view, sel})); window.scrollTo(0,0); },[view]);
+  React.useEffect(()=>{ sessionStorage.setItem(KEY, JSON.stringify({view, sel})); },[sel]);
+  const opened = () => { localStorage.setItem('conduxt-visited','1'); setIntro(false); };
+  const replay = () => { localStorage.removeItem('conduxt-visited'); setView('book'); setSel('overview'); setIntro(true); };
+  const openAsk = (ctx, opts) => setAsk({ ctx, ...(opts||{}) });
+  const openInsight = id => { setSel(id); setView('book'); };
+  return (
+    <div data-screen-label={view === 'today' ? 'Today' : view === 'team' ? 'Team' : 'Your patterns'}>
+      {view === 'today'
+        ? (tw.home === 'calm' ? <HomeCalm setView={setView} openAsk={openAsk} openInsight={openInsight}></HomeCalm> : <Today setView={setView} openAsk={openAsk} openInsight={openInsight}></Today>)
+        : view === 'team' ? <Team setView={setView} openAsk={openAsk} teamsMode={tw.teams}></Team>
+        : <Book setView={setView} sel={sel} setSel={setSel} openAsk={openAsk}></Book>}
+      {intro && <BookOpen name={onb.name} onOpen={opened}></BookOpen>}
+      {ask && <Ask ctx={ask.ctx} prefill={ask.prefill} title={ask.title} theme={ask.theme} auraGrad={ask.auraGrad} people={ask.people} onClose={()=>setAsk(null)}></Ask>}
+      <TweaksPanel>
+        <TweakSection label="Homepage"></TweakSection>
+        <TweakRadio label="Style" value={tw.home} options={['calm','atmospheric']} onChange={v=>setTweak('home',v)}></TweakRadio>
+        <TweakSection label="Team"></TweakSection>
+        <TweakRadio label="Existing teams" value={tw.teams} options={['none','one','several']} onChange={v=>setTweak('teams',v)}></TweakRadio>
+        <TweakSection label="First run"></TweakSection>
+        <TweakButton label="Replay first-time opening" onClick={replay}></TweakButton>
+      </TweaksPanel>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App></App>);
+</script></body></html>

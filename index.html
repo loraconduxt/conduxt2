@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Conduxt</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:#EBEAE5}body{font-family:'DM Sans',system-ui,sans-serif;color:#202221;display:flex;flex-direction:column}
+a{color:#202221}a:hover{color:#3D3E3C}
+.e2e-bar{display:flex;align-items:center;gap:16px;padding:0 16px;height:52px;border-bottom:1px solid #DDD1C1;background:#F5F3EE;flex-shrink:0;overflow:hidden}
+.e2e-lbl{font-family:'Space Mono',monospace;font-weight:700;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#7A7975;white-space:nowrap}
+.e2e-steps{display:flex;gap:6px;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none}.e2e-steps::-webkit-scrollbar{display:none}
+@media (max-width:1100px){.e2e-lbl{display:none}}
+.e2e-step{display:flex;align-items:center;gap:8px;height:34px;padding:0 12px;border-radius:999px;border:1px solid #DDD1C1;background:transparent;color:#202221;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.e2e-step:hover{background:#fff}
+.e2e-step.on{background:#202221;color:#fff;border-color:#202221}
+.e2e-n{font-family:'Space Mono',monospace;font-size:10px;opacity:.7}
+.e2e-reset{height:34px;padding:0 14px;border-radius:4px;border:none;background:#202221;color:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+iframe{flex:1;width:100%;border:0;background:#EBEAE5}
+.e2e-bar{display:none}</style></head><body>
+<iframe id="app" title="Conduxt"></iframe>
+<script>
+const OB='conduxt-onboard-v2', DK='conduxt-daily-v1';
+const frame=document.getElementById('app');
+const clearFlow=()=>{['conduxt-visited','conduxt-landing'].forEach(k=>localStorage.removeItem(k));sessionStorage.removeItem(DK);};
+const daily=(view,create)=>{localStorage.setItem('conduxt-visited','1');sessionStorage.setItem(DK,JSON.stringify({view,sel:'overview'}));if(create)sessionStorage.setItem('cx-team-create','1');else sessionStorage.removeItem('cx-team-create');return 'Conduxt Daily.html?v='+Date.now();};
+const STEPS=[
+ {id:'intro',t:'Intro',go:()=>{clearFlow();localStorage.removeItem(OB);return 'Conduxt Sign Up.html?v='+Date.now();}},
+ {id:'assess',t:'Add assessments',go:()=>{clearFlow();localStorage.setItem(OB,JSON.stringify({ans:[],res:{},panel:'a',qi:0,name:'',email:'',saved:false,int:{},introDone:true}));return 'Conduxt Sign Up.html?v='+Date.now();}},
+ {id:'open',t:'First open',go:()=>{clearFlow();sessionStorage.removeItem('cx-team-create');return 'Conduxt Daily.html?v='+Date.now();}},
+ {id:'book',t:'Your patterns',go:()=>daily('book')},
+ {id:'today',t:'Today',go:()=>daily('today')},
+ {id:'team',t:'Your teams',go:()=>daily('team')},
+ {id:'newteam',t:'Create a team',go:()=>daily('team',true)}
+];
+const box={innerHTML:'',appendChild(){}};
+let cur=localStorage.getItem('conduxt-e2e-step')||'intro';
+const render=()=>{box.innerHTML='';STEPS.forEach((s,i)=>{const b=document.createElement('button');b.className='e2e-step'+(s.id===cur?' on':'');b.innerHTML='<span class="e2e-n">0'+(i+1)+'</span>'+s.t;b.onclick=()=>open(s.id);box.appendChild(b);});};
+const open=id=>{cur=id;localStorage.setItem('conduxt-e2e-step',id);frame.src=STEPS.find(s=>s.id===id).go();render();};
+frame.addEventListener('load',()=>{try{const p=decodeURIComponent(frame.contentWindow.location.pathname);if(p.endsWith('Conduxt Daily.html')&&(cur==='intro'||cur==='assess')){cur='book';localStorage.setItem('conduxt-e2e-step',cur);render();}}catch(e){}});
+cur='intro';frame.src=STEPS[0].go();
+</script>
+</body></html>

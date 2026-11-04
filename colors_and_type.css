@@ -1,0 +1,233 @@
+/* ============================================================
+   CONDUXT DESIGN SYSTEM — Colors & Typography Tokens
+   Updated palette: Soft Apple, Baby Pink, Warm Ivory, Linen Mist, Charcoal, Smoke
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+
+  /* ── Brand Colors ─────────────────────────────────────────── */
+  --color-soft-apple:   #CBC064;   /* 1. Primary */
+  --color-baby-pink:    #FFB6E3;   /* 2. Secondary */
+  --color-warm-ivory:   #DDD1C1;   /* 3. Tertiary */
+  --color-linen-mist:   #EBEAE5;   /* 4. Background / Linen */
+  --color-smoke:        #E3E1E6;   /* 5. Smoke / Border */
+  --color-charcoal:     #202221;   /* Text / Primary Dark */
+
+  /* ── Atmospheric surfaces (v2) — full-bleed tonal grounds ── */
+  --atmo-sage:        #8FA590;   /* Signature mood */
+  --atmo-sage-deep:   #6E8674;
+  --atmo-terra:       #A86B47;   /* Quiet / grounded mood */
+  --atmo-terra-deep:  #7A4A2E;
+  --atmo-cream:       #D8D4C7;
+  --atmo-cream-deep:  #B5AE9C;
+  --atmo-mist:        #DEE3E0;
+
+  /* ── Glow stops (v2) — only used inside auras ──────────── */
+  --glow-coral:   #FF6B5A;
+  --glow-blue:    #6B9BD4;
+  --glow-warm:    #F5E6D0;
+  --glow-mint:    #B8D8C0;
+  --glow-apple:   #CBC064;
+  --glow-pink:    #FFB6E3;
+
+  /* ── Linework ─────────────────────────────────────────── */
+  --line-on-dark:  rgba(255,255,255,0.75);
+  --line-on-light: rgba(32,34,33,0.5);
+  --line-weight:   1px;
+
+  /* ── Neutral Scale ────────────────────────────────────────── */
+  --color-black:        #202221;
+  --color-dark-grey:    #3D3E3C;
+  --color-mid-grey:     #767574;
+  --color-grey:         #A7A6A4;
+  --color-light-grey:   #E3E1E6;   /* Smoke */
+  --color-white:        #EBEAE5;   /* Linen Mist */
+  --color-pure-white:   #FFFFFF;
+
+  /* ── Semantic Colors ──────────────────────────────────────── */
+  --color-bg:           var(--color-linen-mist);
+  --color-surface:      var(--color-pure-white);
+  --color-fg-primary:   var(--color-charcoal);
+  --color-fg-secondary: var(--color-dark-grey);
+  --color-fg-muted:     var(--color-mid-grey);
+  --color-fg-subtle:    var(--color-grey);
+  --color-border:       var(--color-smoke);
+  --color-border-error: var(--color-soft-apple);
+  --color-active:       var(--color-soft-apple);
+  --color-accent:       var(--color-soft-apple);
+
+  /* ── Gradients ────────────────────────────────────────────── */
+  --gradient-apple-pink:   radial-gradient(ellipse at center, var(--color-soft-apple) 0%, var(--color-baby-pink) 100%);
+  --gradient-pink-ivory:   radial-gradient(ellipse at center, var(--color-baby-pink) 0%, var(--color-warm-ivory) 100%);
+  --gradient-ivory-apple:  radial-gradient(ellipse at center, var(--color-warm-ivory) 0%, var(--color-soft-apple) 100%);
+  --gradient-multi:        radial-gradient(ellipse at center, var(--color-soft-apple) 0%, var(--color-baby-pink) 50%, var(--color-warm-ivory) 100%);
+  --gradient-linear:       linear-gradient(90deg, var(--color-soft-apple), var(--color-baby-pink), var(--color-warm-ivory), var(--color-linen-mist));
+  --gradient-selected:     radial-gradient(ellipse at top right, var(--color-soft-apple) 0%, var(--color-baby-pink) 100%);
+
+  /* ── Auras (v2) — big blurred radial glows, always with grain ── */
+  --aura-coral-sage:  radial-gradient(circle, var(--glow-coral) 0%, rgba(255,107,90,.85) 12%, rgba(255,150,180,.55) 30%, rgba(180,140,180,.18) 55%, transparent 75%);
+  --aura-blue-cream:  radial-gradient(circle, var(--glow-blue) 0%, rgba(107,155,212,.6) 25%, rgba(216,212,199,0) 70%);
+  --aura-warm-terra:  radial-gradient(circle, var(--glow-warm) 0%, rgba(245,230,208,.75) 25%, rgba(168,107,71,0) 70%);
+  --aura-apple-pink:  radial-gradient(circle, var(--glow-apple) 0%, var(--glow-pink) 30%, rgba(255,182,227,.35) 55%, transparent 72%);
+  --aura-mint-sage:   radial-gradient(circle, var(--glow-mint) 0%, rgba(184,216,192,.5) 30%, transparent 70%);
+  --aura-spectrum:    radial-gradient(circle, var(--glow-blue) 0%, var(--glow-pink) 22%, var(--glow-coral) 44%, var(--glow-apple) 62%, var(--color-warm-ivory) 82%, transparent 100%);
+  --grain-url: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>"); /* @kind other */
+
+  /* ── Font Families ────────────────────────────────────────── */
+  --font-serif:   'PT Serif', Georgia, serif;
+  --font-sans:    'DM Sans', system-ui, sans-serif;
+  --font-mono:    'Space Mono', 'Courier New', monospace;
+
+  /* ── Font Sizes ───────────────────────────────────────────── */
+  --text-h1:         48px;
+  --text-h2:         32px;
+  --text-h3:         24px;
+  --text-h4:         24px;
+  --text-large:      18px;
+  --text-normal:     16px;
+  --text-small:      14px;
+  --text-label-mono: 14px;
+  --text-label-lg:   20px;
+  --text-label:      18px;
+
+  --text-h1-mobile:     26px;
+  --text-h2-mobile:     20px;
+  --text-h3-mobile:     18px;
+  --text-h4-mobile:     20px;
+  --text-large-mobile:  18px;
+  --text-normal-mobile: 15px;
+  --text-small-mobile:  12px;
+
+  /* ── Line Heights & Tracking ──────────────────────────────── */
+  --line-height-base: 1.4;
+  --tracking-tight:  -0.01em;
+  --tracking-wide:    0.03em;
+  --tracking-label:   0.18em;   /* Space Mono caps — H3, nav, top bars */
+  --tracking-orbit:   0.18em;
+  --tracking-perimeter: 0.32em; /* atmospheric perimeter labels */
+  --leading-display:  1.04;
+
+  /* ── Spacing ──────────────────────────────────────────────── */
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-7:  32px;
+  --space-8:  36px;
+  --space-9:  48px;
+
+  /* ── Radii ────────────────────────────────────────────────── */
+  --radius-sm:    4px;
+  --radius-md:    6px;
+  --radius-lg:   10px;
+  --radius-xl:   14px;
+  --radius-full: 9999px;
+
+  /* ── Shadows ──────────────────────────────────────────────── */
+  --shadow-card:  0 2px 12px rgba(32, 34, 33, 0.08);
+  --shadow-hover: 0 4px 20px rgba(32, 34, 33, 0.12);
+
+  /* ── Component Sizes ──────────────────────────────────────── */
+  --button-height-lg: 48px;
+  --button-height-sm: 40px;
+  --button-padding-h: 20px;
+  --input-height:     46px;
+  --input-min-width:  200px;
+  --icon-size:        16px;
+  --icon-gap:          8px;
+
+  /* ── v3 Product calm — from Conduxt end-to-end ─────────────── */
+  /* Moments: the five work moments. bg = chip/hover fill, tint = page wash on hover, ink = text on bg */
+  --moment-claim-bg:        #CBC064; --moment-claim-tint:        #EEEACB; --moment-claim-ink:        #202221;
+  --moment-create-bg:       #6B9BD4; --moment-create-tint:       #DCE5EF; --moment-create-ink:       #FFFFFF;
+  --moment-communicate-bg:  #FFB6E3; --moment-communicate-tint:  #F6DEEA; --moment-communicate-ink:  #202221;
+  --moment-confront-bg:     #A86B47; --moment-confront-tint:     #EADBCF; --moment-confront-ink:     #FFFFFF;
+  --moment-collaborate-bg:  #8FA590; --moment-collaborate-tint:  #DCE2D9; --moment-collaborate-ink:  #FFFFFF;
+
+  /* Pattern areas (chapters) */
+  --area-pattern:       #8FA590;
+  --area-work:          #6B9BD4;
+  --area-productivity:  #CBC064;
+  --area-stress:        #A86B47;
+  --area-cognitive:     #6E8674;
+  --area-interpersonal: #FFB6E3;
+  --area-team:          #7A4A2E;
+
+  /* Personal aura — five trait colours, centre → edge */
+  --aura-personal: radial-gradient(circle, #6B9BD4FF 0%, #FFB6E3F2 22%, #FF6B5AE0 44%, #CBC064CC 62%, #8FA590A6 80%, rgba(221,209,193,0) 100%); /* @kind other */
+
+  /* Surfaces & type details */
+  --shadow-soft:      0 8px 24px rgba(32,34,33,0.06);
+  --radius-card:      6px;
+  --divider-strong:   1.5px solid var(--color-grey);
+  --color-emphasis:   var(--color-mid-grey);  /* italic serif emphasis */
+  --leading-serif:    1.06;
+  --tracking-serif:  -0.02em;
+  --text-display:     52px;
+  --text-display-mobile: 34px;
+  --topbar-height:    80px;
+  --topbar-height-mobile: 60px;
+
+  /* Motion — slow, breathing, never bouncy */
+  --ease-calm:      cubic-bezier(.2,.7,.2,1); /* @kind other */
+  --dur-quick:      .15s; /* @kind other */
+  --dur-base:       .25s; /* @kind other */
+  --dur-mood:       .8s; /* @kind other */   /* background tint / orb scale */
+  --dur-reveal:     .9s; /* @kind other */   /* half → full aura */
+  --dur-breathe:    6s; /* @kind other */
+}
+
+/* ── Atmosphere utilities (v2) ─────────────────────────────── */
+.grain { position: relative; }
+.grain::after { content: ""; position: absolute; inset: 0; background: var(--grain-url); opacity: .5; mix-blend-mode: overlay; pointer-events: none; }
+.atmo-sage  { background: var(--atmo-sage);  color: #fff; }
+.atmo-terra { background: var(--atmo-terra); color: #fff; }
+.atmo-cream { background: var(--atmo-cream); color: var(--color-charcoal); }
+.serif-accent { font-family: var(--font-serif); font-style: italic; }
+.label-perimeter { font-family: var(--font-mono); font-size: 11px; letter-spacing: var(--tracking-perimeter); text-transform: uppercase; }
+
+/* ── v3 Product calm utilities ─────────────────────────────── */
+@keyframes cxBreathe { 0%,100% { transform: scale(.97); } 50% { transform: scale(1.03); } }
+@keyframes cxFade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes cxPulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+.cx-breathe { animation: cxBreathe var(--dur-breathe) ease-in-out infinite; }
+.cx-fade    { animation: cxFade .6s var(--ease-calm) both; }
+.cx-pulse   { animation: cxPulse 1.2s ease-in-out infinite; }
+.em-muted   { font-style: italic; color: var(--color-emphasis); }
+.card-soft  { background: var(--color-pure-white); border-radius: var(--radius-card); box-shadow: var(--shadow-soft); }
+
+/* ── Base Styles ──────────────────────────────────────────────── */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-normal);
+  line-height: var(--line-height-base);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-fg-primary);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+h1 { font-family: var(--font-serif); font-size: var(--text-h1); font-weight: 400; line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+h2 { font-family: var(--font-serif); font-size: var(--text-h2); font-weight: 400; line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+h3 { font-family: var(--font-mono); font-size: var(--text-h3); font-weight: 400; line-height: var(--line-height-base); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+h4 { font-family: var(--font-serif); font-size: var(--text-h4); font-weight: 400; line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+p  { font-family: var(--font-sans); font-size: var(--text-normal); line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+
+.label-mono    { font-family: var(--font-mono); font-size: var(--text-label-mono); line-height: var(--line-height-base); letter-spacing: var(--tracking-wide); }
+.label-bold-lg { font-family: var(--font-sans); font-size: var(--text-label-lg); font-weight: 700; line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+.label-bold    { font-family: var(--font-sans); font-size: var(--text-label); font-weight: 700; line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+.text-large    { font-family: var(--font-sans); font-size: var(--text-large); line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+.text-small    { font-family: var(--font-sans); font-size: var(--text-small); line-height: var(--line-height-base); letter-spacing: var(--tracking-tight); }
+
+@media (max-width: 768px) {
+  h1 { font-size: var(--text-h1-mobile); }
+  h2 { font-size: var(--text-h2-mobile); }
+  h3 { font-size: var(--text-h3-mobile); }
+  h4 { font-size: var(--text-h4-mobile); }
+  p  { font-size: var(--text-normal-mobile); }
+  .text-large { font-size: var(--text-large-mobile); }
+  .text-small { font-size: var(--text-small-mobile); }
+}

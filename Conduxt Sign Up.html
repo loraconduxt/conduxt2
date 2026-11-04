@@ -1,0 +1,50 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Conduxt</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+*{box-sizing:border-box}html,body{margin:0;background:#EBEAE5;height:100%;overflow:hidden;overscroll-behavior:none}body{font-family:'DM Sans',system-ui,sans-serif;color:#202221;-webkit-font-smoothing:antialiased}
+a{color:#202221}a:hover{color:#3D3E3C}button{font:inherit}input::placeholder{color:#A7A6A4}
+@keyframes cxOrbit{to{transform:rotate(360deg)}}
+@keyframes cxBreathe{0%,100%{transform:scale(.97)}50%{transform:scale(1.03)}}.cx-breathe{animation:cxBreathe 6s ease-in-out infinite}
+@keyframes cxFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.cx-fade{animation:cxFade .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes cxPulse{0%,100%{opacity:1}50%{opacity:.55}}.cx-pulse{animation:cxPulse 1s ease-in-out infinite}
+@keyframes cxDissolve{0%{opacity:0;filter:blur(8px);transform:translateY(12px)}14%{opacity:1;filter:blur(0);transform:none}78%{opacity:1;filter:blur(0);transform:none}100%{opacity:0;filter:blur(10px);transform:translateY(-10px)}}.cx-dissolve{animation:cxDissolve 3.4s ease both}
+</style>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="daily/data.js"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head><body><div id="root"></div>
+<script type="text/babel" src="conduxt-app/atoms.jsx"></script>
+<script type="text/babel" src="daily/aura.jsx"></script>
+<script type="text/babel" src="onboard/onboard.jsx"></script>
+<script type="text/babel" src="onboard/fit.jsx"></script>
+<script type="text/babel" src="onboard/intro.jsx"></script>
+<script type="text/babel" src="onboard/onboard2.jsx"></script>
+<script type="text/babel" src="daily/tweaks-panel.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "notes": false,
+  "version": "v2 · colour in",
+  "fit": true,
+  "fitMin": 40
+}/*EDITMODE-END*/;
+function App() {
+  const [tw, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  React.useEffect(()=>{ setFitCfg({ on: tw.fit, min: tw.fitMin/100 }); }, [tw.fit, tw.fitMin]);
+  return (
+    <>
+      {tw.version.startsWith('v2') ? <OnboardV2 notes={tw.notes}></OnboardV2> : <Onboard notes={tw.notes}></Onboard>}
+      <TweaksPanel>
+        <TweakSection label="Version"></TweakSection>
+        <TweakRadio label="Flow" value={tw.version} options={['v1 · questions first','v2 · colour in']} onChange={v=>setTweak('version',v)}></TweakRadio>
+        <TweakSection label="Screen fit"></TweakSection>
+        <TweakToggle label="Fit every screen (no scrolling)" value={tw.fit} onChange={v=>setTweak('fit',v)}></TweakToggle>
+        <TweakSlider label="Smallest allowed size" value={tw.fitMin} min={30} max={100} step={2} unit="%" onChange={v=>setTweak('fitMin',v)}></TweakSlider>
+        <TweakSection label="Review"></TweakSection>
+        <TweakToggle label="Show backend notes" value={tw.notes} onChange={v=>setTweak('notes',v)}></TweakToggle>
+      </TweaksPanel>
+    </>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App></App>);
+</script></body></html>
